@@ -1,12 +1,15 @@
 # loop_logic_problems.py
-# Python Foundation – Loop Logic Problems
+# Python Foundation – Loop Logic Problems (Improved Version)
 
-# Problem 1: Sum of first n natural numbers
-n = 10
+# Problem 1: Sum of first n natural numbers (User Input)
+n = int(input("Enter a number to calculate sum: "))
 total = 0
+
 for i in range(1, n + 1):
     total += i
+
 print("Sum of first", n, "numbers:", total)
+
 
 # Problem 2: Count even and odd numbers in a list
 numbers = [1, 4, 7, 9, 12, 16, 19]
@@ -22,8 +25,9 @@ for num in numbers:
 print("Even count:", even_count)
 print("Odd count:", odd_count)
 
-# Problem 3: Check if a number is prime
-num = 17
+
+# Problem 3: Check if a number is prime (User Input)
+num = int(input("Enter a number to check prime: "))
 is_prime = True
 
 if num <= 1:
