@@ -14,6 +14,7 @@ This repository contains my Python learning journey while building a strong foun
 
 ## Folder Structure
 
+```
 python-foundation
 │
 ├── loops
@@ -22,6 +23,7 @@ python-foundation
 ├── dictionaries
 ├── strings
 └── mini_projects
+```
 
 ## Mini Projects
 
