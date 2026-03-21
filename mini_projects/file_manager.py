@@ -1,4 +1,4 @@
-# File Manager System
+# Advanced File Manager System 📁
 # Created as part of Python learning journey
 
 from pathlib import Path
@@ -6,9 +6,8 @@ import os
 
 
 def list_items():
-    print("\n📂 Files & Folders:")
-    path = Path('.')
-    items = list(path.rglob('*'))
+    print("\n📂 Available Files & Folders:")
+    items = list(Path('.').glob('*'))
 
     if not items:
         print("No files found")
@@ -20,20 +19,20 @@ def list_items():
 
 def create_file():
     try:
-        list_items()
-        name = input("\nEnter file name: ")
+        name = input("\nEnter new file name: ")
         p = Path(name)
 
-        if not p.exists():
-            with open(p, "w") as fs:
-                data = input("Enter content: ")
-                fs.write(data)
-            print("✅ File created successfully")
-        else:
+        if p.exists():
             print("❌ File already exists")
+            return
 
-    except Exception as err:
-        print(f"Error: {err}")
+        content = input("Enter content: ")
+        p.write_text(content)
+
+        print("✅ File created successfully")
+
+    except Exception as e:
+        print(f"Error: {e}")
 
 
 def read_file():
@@ -42,15 +41,15 @@ def read_file():
         name = input("\nEnter file name to read: ")
         p = Path(name)
 
-        if p.exists() and p.is_file():
-            with open(p, 'r') as fs:
-                print("\n📄 File Content:\n")
-                print(fs.read())
-        else:
-            print("❌ File does not exist")
+        if not p.exists() or not p.is_file():
+            print("❌ File not found")
+            return
 
-    except Exception as err:
-        print(f"Error: {err}")
+        print("\n📄 File Content:\n")
+        print(p.read_text())
+
+    except Exception as e:
+        print(f"Error: {e}")
 
 
 def update_file():
@@ -59,43 +58,37 @@ def update_file():
         name = input("\nEnter file name to update: ")
         p = Path(name)
 
-        if p.exists() and p.is_file():
+        if not p.exists() or not p.is_file():
+            print("❌ File not found")
+            return
 
-            print("\n1. Rename File")
-            print("2. Overwrite Content")
-            print("3. Append Content")
+        print("\n1. Rename File")
+        print("2. Overwrite Content")
+        print("3. Append Content")
 
-            try:
-                choice = int(input("Enter your choice: "))
-            except:
-                print("❌ Invalid input")
-                return
+        choice = input("Enter choice: ")
 
-            if choice == 1:
-                new_name = input("Enter new file name: ")
-                p.rename(new_name)
-                print("✅ File renamed successfully")
+        if choice == '1':
+            new_name = input("Enter new file name: ")
+            p.rename(new_name)
+            print("✅ File renamed")
 
-            elif choice == 2:
-                with open(p, 'w') as fs:
-                    data = input("Enter new content: ")
-                    fs.write(data)
-                print("✅ File overwritten successfully")
+        elif choice == '2':
+            new_content = input("Enter new content: ")
+            p.write_text(new_content)
+            print("✅ File overwritten")
 
-            elif choice == 3:
-                with open(p, 'a') as fs:
-                    data = input("Enter content to append: ")
-                    fs.write(" " + data)
-                print("✅ Content appended")
-
-            else:
-                print("❌ Invalid choice")
+        elif choice == '3':
+            extra = input("Enter content to append: ")
+            with open(p, 'a') as f:
+                f.write("\n" + extra)
+            print("✅ Content appended")
 
         else:
-            print("❌ File does not exist")
+            print("❌ Invalid choice")
 
-    except Exception as err:
-        print(f"Error: {err}")
+    except Exception as e:
+        print(f"Error: {e}")
 
 
 def delete_file():
@@ -104,18 +97,24 @@ def delete_file():
         name = input("\nEnter file name to delete: ")
         p = Path(name)
 
-        if p.exists() and p.is_file():
-            os.remove(p)
-            print("✅ File deleted successfully")
-        else:
+        if not p.exists() or not p.is_file():
             print("❌ File not found")
+            return
 
-    except Exception as err:
-        print(f"Error: {err}")
+        confirm = input("Are you sure? (y/n): ")
+
+        if confirm.lower() == 'y':
+            os.remove(p)
+            print("✅ File deleted")
+        else:
+            print("Cancelled")
+
+    except Exception as e:
+        print(f"Error: {e}")
 
 
 def menu():
-    print("\n===== FILE MANAGER SYSTEM 📁 =====")
+    print("\n===== ADVANCED FILE MANAGER 📁 =====")
     print("1. Create File")
     print("2. Read File")
     print("3. Update File")
@@ -124,31 +123,26 @@ def menu():
 
 
 def main():
-    print("\nWelcome to File Manager System 📁")
+    print("\nWelcome to Advanced File Manager 📁")
 
     while True:
         menu()
+        choice = input("Enter your choice: ")
 
-        try:
-            choice = int(input("Enter your choice: "))
-        except:
-            print("❌ Invalid input")
-            continue
-
-        if choice == 1:
+        if choice == '1':
             create_file()
 
-        elif choice == 2:
+        elif choice == '2':
             read_file()
 
-        elif choice == 3:
+        elif choice == '3':
             update_file()
 
-        elif choice == 4:
+        elif choice == '4':
             delete_file()
 
-        elif choice == 5:
-            print("🙏 Exiting File Manager")
+        elif choice == '5':
+            print("👋 Exiting File Manager")
             break
 
         else:
